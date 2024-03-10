@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         val currentProgress = mProgress.progress
         val maxProgress = 100
         val increment = maxProgress / 6
-        println(increment)
         for (i in 1..6) {
             val taskLayout = LinearLayout(this)
             taskLayout.orientation = LinearLayout.HORIZONTAL
