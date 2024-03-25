@@ -23,24 +23,6 @@ class Lab03Activity : AppCompatActivity() {
         mBoard.columnCount = columns
         mBoard.rowCount = rows
         val mBoardModel = MemoryBoardView(mBoard, columns, rows)
-
-            /*for(row in 0 until rows) {
-               for(col in 0 until columns) {
-                     val btn = ImageButton(this).also {
-                       it.tag = "${row}x${col}"
-                       val layoutParams = GridLayout.LayoutParams()
-                       it.setImageResource(R.drawable.baseline_audiotrack_24)
-                       layoutParams.width = 0
-                       layoutParams.height = 0
-                       layoutParams.setGravity(Gravity.CENTER)
-                       layoutParams.columnSpec = GridLayout.spec(col, 1, 1f)
-                       layoutParams.rowSpec = GridLayout.spec(row, 1, 1f)
-                       it.layoutParams = layoutParams
-                       mBoard.addView(it)
-                   }
-               }
-            }*/
-
         }
     }
 data class Tile(val button: ImageButton, val tileResource: Int, val deckResource: Int) {
@@ -127,31 +109,38 @@ class MemoryBoardView(
             it.shuffle()
         }
 
-        for (row in 0 until rows) {
-            for (col in 0 until cols) {
-                val btn = ImageButton(gridLayout.context).apply {
-                    tag = "$row$col"
+        for(row in 0 until rows)
+        {
+            for(col in 0 until cols)
+            {
+                val tag = "${row}x${col}"
+                val btn = ImageButton(gridLayout.context).also {
+                    it.tag = tag
                     val layoutParams = GridLayout.LayoutParams()
+                    it.setImageResource(R.drawable.baseline_audiotrack_24)
                     layoutParams.width = 0
                     layoutParams.height = 0
                     layoutParams.setGravity(Gravity.CENTER)
                     layoutParams.columnSpec = GridLayout.spec(col, 1, 1f)
                     layoutParams.rowSpec = GridLayout.spec(row, 1, 1f)
-                    this.layoutParams = layoutParams
-                    setOnClickListener { onClickTile(this) }
+                    it.layoutParams = layoutParams
+                    it.setImageResource(R.drawable.baseline_back_hand_24)
+                    gridLayout.addView(it)
                 }
-                gridLayout.addView(btn)
+                tiles[tag] = (Tile(btn, shuffledIcons.get(0), R.drawable.baseline_rocket_launch_24))
                 addTile(btn, shuffledIcons.removeAt(0))
             }
         }
-    }
-    private val deckResource: Int = R.drawable.baseline_back_hand_24
+        }
+
+    private val deckResource = R.drawable.baseline_back_hand_24
     private var onGameChangeStateListener: (MemoryGameEvent) -> Unit = { (e) -> }
     private val matchedPair: Stack<Tile> = Stack()
     private val logic: MemoryGameLogic = MemoryGameLogic(cols * rows / 2)
 
     private fun onClickTile(v: View) {
         val tile = tiles[v.tag]
+        tile?.revealed = !(tile?.revealed ?: false)
         matchedPair.push(tile)
         val matchResult = logic.process {
             tile?.tileResource?:-1
