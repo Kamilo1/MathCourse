@@ -2,6 +2,7 @@ package pl.wsei.pam.lab03
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.GridLayout
@@ -107,7 +108,16 @@ class MemoryBoardView(
         R.drawable.baseline_alarm_24,
         R.drawable.baseline_battery_alert_24,
         R.drawable.baseline_beach_access_24,
-        R.drawable.baseline_boy_24
+        R.drawable.baseline_boy_24,
+        R.drawable.baseline_child_care_24,
+        R.drawable.baseline_celebration_24,
+        R.drawable.baseline_currency_bitcoin_24,
+        R.drawable.baseline_emoji_events_24,
+        R.drawable.baseline_extension_24,
+        R.drawable.baseline_headphones_24,
+        R.drawable.baseline_language_24,
+        R.drawable.baseline_local_airport_24,
+        R.drawable.baseline_local_dining_24
         // dodaj kolejne identyfikatory utworzonych ikon
     )
     init {
