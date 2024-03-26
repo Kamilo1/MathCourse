@@ -13,6 +13,8 @@ import java.util.Stack
 import java.util.Timer
 import kotlin.concurrent.schedule
 class Lab03Activity : AppCompatActivity() {
+    private lateinit var mBoardModel: MemoryBoardView
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -24,7 +26,13 @@ class Lab03Activity : AppCompatActivity() {
         var mBoard : GridLayout = findViewById(R.id.MemoryBoard)
         mBoard.columnCount = columns
         mBoard.rowCount = rows
-        val mBoardModel = MemoryBoardView(mBoard, columns, rows)
+         mBoardModel = MemoryBoardView(mBoard, columns, rows)
+        if (savedInstanceState != null) {
+            val gameStateString = savedInstanceState.getString("gameState")
+            val gameState = gameStateString?.split(",")?.map { it.toInt() } ?: listOf()
+            mBoardModel.setState(gameState)
+        }
+
         mBoardModel.setOnGameChangeListener { e ->
                     runOnUiThread {
                         when (e.state) {
@@ -58,7 +66,12 @@ class Lab03Activity : AppCompatActivity() {
                 }
 
     }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val gameState = mBoardModel.getState().joinToString(",")
+        outState.putString("gameState", gameState)
     }
+}
 data class Tile(val button: ImageButton, val tileResource: Int, val deckResource: Int) {
     init {
         button.setImageResource(deckResource)
@@ -136,6 +149,7 @@ class MemoryBoardView(
         R.drawable.baseline_local_dining_24
         // dodaj kolejne identyfikatory utworzonych ikon
     )
+
     init {
         val shuffledIcons: MutableList<Int> = mutableListOf<Int>().also {
             it.addAll(icons.subList(0, cols * rows / 2))
@@ -194,4 +208,23 @@ class MemoryBoardView(
         val tile = Tile(button, resourceImage, deckResource)
         tiles[button.tag.toString()] = tile
     }
+    fun getState(): List<Int> {
+        return tiles.values.map { tile ->
+            if (tile.revealed) tile.tileResource else -1
+        }
+    }
+
+    fun setState(state: List<Int>) {
+        tiles.values.forEachIndexed { index, tile ->
+            val tileState = state[index]
+            tile.revealed = tileState != -1
+            if (tile.revealed) {
+                tile.button.setImageResource(tileState)
+            } else {
+                tile.button.setImageResource(tile.deckResource)
+            }
+        }
+    }
+
+
 }
