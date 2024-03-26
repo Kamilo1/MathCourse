@@ -7,9 +7,11 @@ import android.view.Gravity
 import android.view.View
 import android.widget.GridLayout
 import android.widget.ImageButton
+import android.widget.Toast
 import pl.wsei.pam.lab01.R
 import java.util.Stack
-
+import java.util.Timer
+import kotlin.concurrent.schedule
 class Lab03Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -23,7 +25,39 @@ class Lab03Activity : AppCompatActivity() {
         mBoard.columnCount = columns
         mBoard.rowCount = rows
         val mBoardModel = MemoryBoardView(mBoard, columns, rows)
-        }
+        mBoardModel.setOnGameChangeListener { e ->
+                    runOnUiThread {
+                        when (e.state) {
+                            GameStates.Matching -> {
+                                e.tiles.forEach { tile ->
+                                    tile.revealed = true
+                                }
+                            }
+                            GameStates.Match -> {
+                                e.tiles.forEach { tile ->
+                                    tile.revealed = true
+                                }
+                            }
+                            GameStates.NoMatch -> {
+                                e.tiles.forEach { tile ->
+                                    tile.revealed = true
+                                }
+                                Timer().schedule(1000) {
+                                    runOnUiThread {
+                                        e.tiles.forEach { tile ->
+                                            tile.revealed = false
+                                        }
+                                    }
+                                }
+                            }
+                            GameStates.Finished -> {
+                                Toast.makeText(this@Lab03Activity, "Game finished", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                }
+
+    }
     }
 data class Tile(val button: ImageButton, val tileResource: Int, val deckResource: Int) {
     init {
@@ -87,7 +121,7 @@ class MemoryBoardView(
         R.drawable.baseline_alarm_24,
         R.drawable.baseline_agriculture_24,
         R.drawable.gradient_1,
-        R.drawable.baseline_alarm_24,
+        R.drawable.baseline_back_hand_24,
         R.drawable.baseline_battery_alert_24,
         R.drawable.baseline_beach_access_24,
         R.drawable.baseline_boy_24,
