@@ -1,5 +1,7 @@
 package pl.wsei.pam.lab03
 
+import android.animation.Animator
+import android.animation.AnimatorSet
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,9 +14,16 @@ import pl.wsei.pam.lab01.R
 import java.util.Stack
 import java.util.Timer
 import kotlin.concurrent.schedule
+import kotlin.random.Random
+import android.animation.ObjectAnimator
+import android.app.Activity
+import android.media.MediaPlayer
+import android.view.animation.DecelerateInterpolator
+
 class Lab03Activity : AppCompatActivity() {
     private lateinit var mBoardModel: MemoryBoardView
-
+    lateinit var completionPlayer: MediaPlayer
+    lateinit var losingPlayer: MediaPlayer
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -44,11 +53,15 @@ class Lab03Activity : AppCompatActivity() {
                             GameStates.Match -> {
                                 e.tiles.forEach { tile ->
                                     tile.revealed = true
+                                    completionPlayer.start()
+                                    animatePairedButton(tile.button, Runnable {  })
                                 }
                             }
                             GameStates.NoMatch -> {
                                 e.tiles.forEach { tile ->
                                     tile.revealed = true
+                                    losingPlayer.start()
+                                    animateMismatchedPair(this@Lab03Activity, tile)
                                 }
                                 Timer().schedule(1000) {
                                     runOnUiThread {
@@ -66,11 +79,84 @@ class Lab03Activity : AppCompatActivity() {
                 }
 
     }
+    override protected fun onResume() {
+        super.onResume()
+        completionPlayer = MediaPlayer.create(applicationContext, R.raw.completion)
+        losingPlayer = MediaPlayer.create(applicationContext, R.raw.losing)
+    }
+
+
+    override protected fun onPause() {
+        super.onPause();
+        completionPlayer.release()
+        losingPlayer.release()
+    }
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         val gameState = mBoardModel.getState().joinToString(",")
         outState.putString("gameState", gameState)
     }
+}
+private fun animatePairedButton(button: ImageButton, action: Runnable ) {
+    val set = AnimatorSet()
+    val random = Random.Default
+    button.pivotX = random.nextFloat() * 200f
+    button.pivotY = random.nextFloat() * 200f
+
+    val rotation = ObjectAnimator.ofFloat(button, "rotation", 1080f)
+    val scallingX = ObjectAnimator.ofFloat(button, "scaleX", 1f, 4f)
+    val scallingY = ObjectAnimator.ofFloat(button, "scaleY", 1f, 4f)
+    val fade = ObjectAnimator.ofFloat(button, "alpha", 1f, 0f)
+    set.startDelay = 500
+    set.duration = 2000
+    set.interpolator = DecelerateInterpolator()
+    set.playTogether(rotation, scallingX, scallingY, fade)
+    set.addListener(object: Animator.AnimatorListener {
+
+        override fun onAnimationStart(animator: Animator) {
+        }
+
+        override fun onAnimationEnd(animator: Animator) {
+            button.scaleX = 1f
+            button.scaleY = 1f
+            button.alpha = 0.0f
+            action.run();
+        }
+
+        override fun onAnimationCancel(animator: Animator) {
+        }
+
+        override fun onAnimationRepeat(animator: Animator) {
+        }
+    })
+    set.start()
+}
+private fun animateMismatchedPair(context: Activity, tile: Tile) {
+    val button = tile.button
+    val animatorSet = AnimatorSet()
+    val rotateLeft = ObjectAnimator.ofFloat(button, "rotation", 0f, -10f)
+    val rotateRight = ObjectAnimator.ofFloat(button, "rotation", -10f, 10f)
+    val rotateBack = ObjectAnimator.ofFloat(button, "rotation", 10f, 0f)
+    rotateLeft.duration = 100
+    rotateRight.duration = 200
+    rotateBack.duration = 100
+
+    animatorSet.playSequentially(rotateLeft, rotateRight, rotateBack)
+    animatorSet.addListener(object : Animator.AnimatorListener {
+        override fun onAnimationStart(animation: Animator) {}
+
+        override fun onAnimationEnd(animation: Animator) {
+            // Po zakończeniu animacji odwróć kartę tyłem
+            context.runOnUiThread {
+                tile.revealed = false
+            }
+        }
+
+        override fun onAnimationCancel(animation: Animator) {}
+
+        override fun onAnimationRepeat(animation: Animator) {}
+    })
+    animatorSet.start()
 }
 data class Tile(val button: ImageButton, val tileResource: Int, val deckResource: Int) {
     init {
