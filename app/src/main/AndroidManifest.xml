@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Lab01"
         tools:targetApi="31">
-
+        <activity android:name="pl.wsei.pam.AuthorsActivity" />
         <activity
             android:name="pl.wsei.pam.MainActivity"
             android:exported="true">

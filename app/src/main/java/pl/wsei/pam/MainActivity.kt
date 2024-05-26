@@ -1,5 +1,6 @@
 package pl.wsei.pam
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        // Setup Toolbar
+
         setSupportActionBar(binding.toolbar)
         drawerLayout = binding.drawerLayout
         toggle = ActionBarDrawerToggle(this, drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -40,16 +41,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         binding.navigationView.setNavigationItemSelectedListener(this)
 
-        // Setup RecyclerView
+
         binding.topicsRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.topicsRecyclerView.adapter = topicsAdapter
 
-        // Observe topics data
+
         viewModel.topics.observe(this, Observer { topics ->
             topicsAdapter.submitList(topics)
         })
 
-        // Handle spinner item selection
+
         binding.departmentSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val selectedDepartment = parent.getItemAtPosition(position).toString()
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-        // Initialize spinner with data
+
         val departmentsAdapter = ArrayAdapter(this, R.layout.spinner_item, viewModel.departments.value!!)
         departmentsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.departmentSpinner.adapter = departmentsAdapter
@@ -68,13 +69,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_home -> {
-                // Handle Home action
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
             }
             R.id.nav_settings -> {
-                // Handle Settings action
+
             }
             R.id.nav_about -> {
-                // Handle About action
+
+            }
+            R.id.nav_authors -> {
+                val intent = Intent(this, AuthorsActivity::class.java)
+                startActivity(intent)
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
