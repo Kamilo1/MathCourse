@@ -1,5 +1,6 @@
 package pl.wsei.pam
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -25,30 +26,43 @@ class LessonActivity : AppCompatActivity() {
 
     class LessonPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         private val slideTitles = arrayOf("Wprowadzenie", "Kwadrat sumy", "Kwadrat różnicy", "Różnica kwadratów")
+
         override fun getCount(): Int = slideTitles.size
 
         override fun getItem(position: Int): Fragment {
+            val isLastSlide = position == slideTitles.size - 1
             return when (position) {
                 0 -> SlideFragment.newInstance(
                     "Wzory skróconego mnożenia",
-                    "Wzory skróconego mnożenia to zestaw reguł, które umożliwiają szybkie i efektywne wykonywanie obliczeń algebraicznych.\nTe wzory pozwalają na uproszczenie równań i wyrażeń, co jest szczególnie przydatne w rozwiązywaniu problemów matematycznych."
+                    "Wzory skróconego mnożenia to zestaw reguł, które umożliwiają szybkie i efektywne wykonywanie obliczeń algebraicznych.\nTe wzory pozwalają na uproszczenie równań i wyrażeń, co jest szczególnie przydatne w rozwiązywaniu problemów matematycznych.",
+                    isLastSlide
                 )
                 1 -> SlideFragment.newInstance(
                     "(a + b)² = a² + 2ab + b²",
-                    "Definicja: Wzór ten pokazuje, jak rozwinąć kwadrat sumy dwóch liczb.\nPrzykład: Rozwiń (x + 3)².\nx² + 2x3 + 3² = x² + 6x + 9\nIlustracja: Pokaż diagram ilustrujący rozkład kwadratu sumy na poszczególne części."
+                    "Definicja: Wzór ten pokazuje, jak rozwinąć kwadrat sumy dwóch liczb.\nPrzykład: Rozwiń (x + 3)².\nx² + 2x3 + 3² = x² + 6x + 9\nIlustracja: Pokaż diagram ilustrujący rozkład kwadratu sumy na poszczególne części.",
+                    isLastSlide
                 )
                 2 -> SlideFragment.newInstance(
                     "(a - b)² = a² - 2ab + b²",
-                    "Definicja: Wzór ten pokazuje, jak rozwinąć kwadrat różnicy dwóch liczb.\nPrzykład: Rozwiń (x - 4)².\nx² - 2x4 + 4² = x² - 8x + 16\nIlustracja: Pokaż diagram ilustrujący rozkład kwadratu różnicy na poszczególne części."
+                    "Definicja: Wzór ten pokazuje, jak rozwinąć kwadrat różnicy dwóch liczb.\nPrzykład: Rozwiń (x - 4)².\nx² - 2x4 + 4² = x² - 8x + 16\nIlustracja: Pokaż diagram ilustrujący rozkład kwadratu różnicy na poszczególne części.",
+                    isLastSlide
                 )
                 3 -> SlideFragment.newInstance(
                     "a² - b² = (a + b)(a - b)",
-                    "Definicja: Wzór ten pozwala rozłożyć różnicę kwadratów na iloczyn dwóch wyrażeń.\nPrzykład: Rozłóż x² - 9.\n(x + 3)(x - 3)\nIlustracja: Pokaż diagram ilustrujący rozkład różnicy kwadratów na poszczególne części."
+                    "Definicja: Wzór ten pozwala rozłożyć różnicę kwadratów na iloczyn dwóch wyrażeń.\nPrzykład: Rozłóż x² - 9.\n(x + 3)(x - 3)\nIlustracja: Pokaż diagram ilustrujący rozkład różnicy kwadratów na poszczególne części.",
+                    isLastSlide
                 )
                 else -> throw IllegalStateException("Unexpected position: $position")
             }
         }
 
         override fun getPageTitle(position: Int): CharSequence? = slideTitles[position]
+    }
+
+    fun onPageSelected(position: Int) {
+        if (position == 3) { // Last slide
+            val intent = Intent(this, QuizActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
