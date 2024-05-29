@@ -9,8 +9,8 @@ class MainViewModel : ViewModel() {
 
     fun updateTopics(department: String) {
         topics.value = when (department) {
+            "Algebra" -> listOf("Wzory skróconego mnożenia", "Quadratic Equations", "Polynomials")
             "Arithmetic" -> listOf("Addition", "Subtraction", "Multiplication", "Division")
-            "Algebra" -> listOf("Linear Equations", "Quadratic Equations", "Polynomials")
             "Geometry" -> listOf("Triangles", "Circles", "Angles")
             "Calculus" -> listOf("Limits", "Derivatives", "Integrals")
             else -> emptyList()
