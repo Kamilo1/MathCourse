@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -22,8 +23,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
     private val topicsAdapter = TopicsAdapter { topic ->
-        val intent = Intent(this, LessonActivity::class.java)
-        startActivity(intent)
+        if (topic == "Wzory skróconego mnożenia") {
+            val intent = Intent(this, LessonActivity::class.java)
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "Ta lekcja jest niedostępna", Toast.LENGTH_SHORT).show()
+        }
     }
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle

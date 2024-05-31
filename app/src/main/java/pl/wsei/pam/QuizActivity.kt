@@ -1,6 +1,8 @@
 package pl.wsei.pam
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.animation.Animation
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -8,7 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import pl.wsei.pam.lab01.R
-
+import android.view.animation.AnimationUtils
 class QuizActivity : AppCompatActivity() {
 
     private lateinit var toolbar: androidx.appcompat.widget.Toolbar
@@ -67,8 +69,10 @@ class QuizActivity : AppCompatActivity() {
                 if (currentQuestionIndex < questions.size) {
                     showQuestion()
                 } else {
-                    Toast.makeText(this, "Quiz finished! Score: $score/${questions.size}", Toast.LENGTH_LONG).show()
-                    finish()
+                    val intent = Intent(this, SummaryActivity::class.java)
+                    intent.putExtra("EXTRA_SCORE", score)
+                    intent.putExtra("EXTRA_TOTAL_QUESTIONS", questions.size)
+                    startActivity(intent)
                 }
             } else {
                 Toast.makeText(this, "Please select an answer", Toast.LENGTH_SHORT).show()
@@ -77,13 +81,31 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun showQuestion() {
-        val question = questions[currentQuestionIndex]
-        questionTextView.text = question.text
-        answersRadioGroup.clearCheck()
-        answer1RadioButton.text = question.answers[0]
-        answer2RadioButton.text = question.answers[1]
-        answer3RadioButton.text = question.answers[2]
-        answer4RadioButton.text = question.answers[3]
+        // Animacja przejścia
+        val slideOutAnim = AnimationUtils.loadAnimation(this, R.anim.slide_out_left)
+        val slideInAnim = AnimationUtils.loadAnimation(this, R.anim.slide_in_right)
+
+        slideOutAnim.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {}
+
+            override fun onAnimationEnd(animation: Animation?) {
+                val question = questions[currentQuestionIndex]
+                questionTextView.text = question.text
+                answersRadioGroup.clearCheck()
+                answer1RadioButton.text = question.answers[0]
+                answer2RadioButton.text = question.answers[1]
+                answer3RadioButton.text = question.answers[2]
+                answer4RadioButton.text = question.answers[3]
+
+                questionTextView.startAnimation(slideInAnim)
+                answersRadioGroup.startAnimation(slideInAnim)
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {}
+        })
+
+        questionTextView.startAnimation(slideOutAnim)
+        answersRadioGroup.startAnimation(slideOutAnim)
     }
 
     private fun checkAnswer(answerIndex: Int) {

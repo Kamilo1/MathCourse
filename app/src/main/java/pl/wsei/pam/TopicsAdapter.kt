@@ -8,12 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import pl.wsei.pam.lab01.R
 class TopicsAdapter(private val onClick: (String) -> Unit) : RecyclerView.Adapter<TopicsAdapter.TopicViewHolder>() {
 
-    private var topics: List<String> = emptyList()
-
-    fun submitList(newTopics: List<String>) {
-        topics = newTopics
-        notifyDataSetChanged()
-    }
+    private val topics = mutableListOf<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopicViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_topic, parent, false)
@@ -24,16 +19,28 @@ class TopicsAdapter(private val onClick: (String) -> Unit) : RecyclerView.Adapte
         holder.bind(topics[position])
     }
 
-    override fun getItemCount(): Int = topics.size
+    override fun getItemCount() = topics.size
 
-    class TopicViewHolder(itemView: View, private val onClick: (String) -> Unit) : RecyclerView.ViewHolder(itemView) {
-        private val textView: TextView = itemView.findViewById(R.id.topicTextView)
+    fun submitList(newTopics: List<String>) {
+        topics.clear()
+        topics.addAll(newTopics)
+        notifyDataSetChanged()
+    }
+
+    class TopicViewHolder(itemView: View, val onClick: (String) -> Unit) : RecyclerView.ViewHolder(itemView) {
+        private val topicTextView: TextView = itemView.findViewById(R.id.topicTextView)
+        private var currentTopic: String? = null
+
+        init {
+            itemView.setOnClickListener {
+                currentTopic?.let { onClick(it) }
+            }
+        }
 
         fun bind(topic: String) {
-            textView.text = topic
-            itemView.setOnClickListener {
-                onClick(topic)
-            }
+            currentTopic = topic
+            topicTextView.text = topic
         }
     }
 }
+

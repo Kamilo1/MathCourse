@@ -15,6 +15,7 @@
         <activity android:name="pl.wsei.pam.AuthorsActivity" />
         <activity android:name="pl.wsei.pam.LessonActivity" />
         <activity android:name="pl.wsei.pam.QuizActivity" />
+        <activity android:name="pl.wsei.pam.SummaryActivity" />
         <activity
             android:name="pl.wsei.pam.MainActivity"
             android:exported="true">

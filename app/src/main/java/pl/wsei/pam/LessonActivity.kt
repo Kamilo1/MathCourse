@@ -49,7 +49,7 @@ class LessonActivity : AppCompatActivity() {
                 )
                 3 -> SlideFragment.newInstance(
                     "a² - b² = (a + b)(a - b)",
-                    "Definicja: Wzór ten pozwala rozłożyć różnicę kwadratów na iloczyn dwóch wyrażeń.\nPrzykład: Rozłóż x² - 9.\n(x + 3)(x - 3)\nIlustracja: Pokaż diagram ilustrujący rozkład różnicy kwadratów na poszczególne części.",
+                    "Definicja: Wzór ten pozwala rozłożyć różnicę kwadratów na iloczyn dwóch wyrażeń.\nPrzykład: Rozłóż x² - 9.\n(x + 3)(x - 3),",
                     isLastSlide
                 )
                 else -> throw IllegalStateException("Unexpected position: $position")
