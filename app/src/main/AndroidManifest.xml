@@ -16,6 +16,14 @@
         <activity android:name="pl.wsei.pam.LessonActivity" />
         <activity android:name="pl.wsei.pam.QuizActivity" />
         <activity android:name="pl.wsei.pam.SummaryActivity" />
+        <activity android:name="pl.wsei.pam.SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name="pl.wsei.pam.MainActivity"
             android:exported="true">
