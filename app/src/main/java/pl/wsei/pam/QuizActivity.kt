@@ -26,7 +26,7 @@ class QuizActivity : AppCompatActivity() {
         Question("Rozwiń wyrażenie (x + 5)².", listOf("x² + 10x + 25", "x² + 25", "x² + 5x + 10", "x² + 15x + 25"), 0),
         Question("Który wzór odpowiada kwadratowi różnicy?", listOf("(a - b)² = a² + 2ab + b²", "(a - b)² = a² - 2ab + b²", "(a - b)² = a² - b²", "(a - b)² = a² + b²"), 1),
         Question("Rozłóż na czynniki x² - 16.", listOf("(x - 4)(x + 4)", "(x - 4)(x - 4)", "(x + 4)(x + 4)", "(x + 2)(x - 2)"), 0),
-        Question("Który wzór jest poprawny dla sześcianu sumy?", listOf("(a + b)³ = a³ + 3a²b + 3ab² + b³", "(a + b)³ = a³ + 3ab + b³", "(a + b)³ = a³ + b³", "(a + b)³ = a³ + 3a² + 3b² + b³"), 0),
+        /*Question("Który wzór jest poprawny dla sześcianu sumy?", listOf("(a + b)³ = a³ + 3a²b + 3ab² + b³", "(a + b)³ = a³ + 3ab + b³", "(a + b)³ = a³ + b³", "(a + b)³ = a³ + 3a² + 3b² + b³"), 0),
         Question("Rozwiń wyrażenie (2x - 3)².", listOf("4x² - 12x + 9", "4x² - 9", "2x² - 6x + 9", "4x² + 6x + 9"), 0),
         Question("Który wzór jest wzorem różnicy kwadratów?", listOf("a² - b² = (a + b)(a - b)", "a² - b² = a² + 2ab + b²", "a² - b² = (a - b)(a - b)", "a² - b² = a² + b²"), 0),
         Question("Rozłóż na czynniki 9y² - 25.", listOf("(3y - 5)(3y + 5)", "(9y - 5)(y + 5)", "(3y - 5)(y + 5)", "(3y - 5)(3y - 5)"), 0),
@@ -38,7 +38,9 @@ class QuizActivity : AppCompatActivity() {
         Question("Rozłóż na czynniki 4x² - 9.", listOf("(2x - 3)(2x + 3)", "(4x - 3)(x + 3)", "(2x - 3)(x + 3)", "(4x - 3)(4x - 3)"), 0),
         Question("Rozwiń wyrażenie (x + 6)².", listOf("x² + 12x + 36", "x² + 6x + 36", "x² + 18x + 36", "x² + 6x + 12"), 0),
         Question("Który wzór jest wzorem różnicy kwadratów?", listOf("a² - b² = (a + b)(a - b)", "a² - b² = a² + 2ab + b²", "a² - b² = (a - b)(a - b)", "a² - b² = a² + b²"), 0)
+        */
     )
+
     private var currentQuestionIndex = 0
     private var score = 0
 

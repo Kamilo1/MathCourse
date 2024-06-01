@@ -25,7 +25,7 @@ class LessonActivity : AppCompatActivity() {
     }
 
     class LessonPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
-        private val slideTitles = arrayOf("Wprowadzenie", "Kwadrat sumy", "Kwadrat różnicy", "Różnica kwadratów")
+        private val slideTitles = arrayOf("Wprowadzenie", "Kwadrat sumy", "Kwadrat różnicy", "Różnica kwadratów", "Quiz")
 
         override fun getCount(): Int = slideTitles.size
 
@@ -52,6 +52,11 @@ class LessonActivity : AppCompatActivity() {
                     "Definicja: Wzór ten pozwala rozłożyć różnicę kwadratów na iloczyn dwóch wyrażeń.\nPrzykład: Rozłóż x² - 9.\n(x + 3)(x - 3),",
                     isLastSlide
                 )
+                4 -> SlideFragment.newInstance(
+                    "Quiz",
+                    "Liczba punktów z ostatniego quizu:",
+                    isLastSlide
+                )
                 else -> throw IllegalStateException("Unexpected position: $position")
             }
         }
@@ -60,7 +65,7 @@ class LessonActivity : AppCompatActivity() {
     }
 
     fun onPageSelected(position: Int) {
-        if (position == 3) { // Last slide
+        if (position == 4) { // Last slide
             val intent = Intent(this, QuizActivity::class.java)
             startActivity(intent)
         }
