@@ -83,6 +83,8 @@ class QuizActivity : AppCompatActivity() {
     }
 
     private fun showQuestion() {
+
+
         // Animacja przejścia
         val slideOutAnim = AnimationUtils.loadAnimation(this, R.anim.slide_out_left)
         val slideInAnim = AnimationUtils.loadAnimation(this, R.anim.slide_in_right)

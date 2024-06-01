@@ -43,7 +43,7 @@ class LessonActivity : AppCompatActivity() {
 
         private val db = AppDatabase.getDatabase(context)
         private var score = "Jeszcze nie ukończono"
-        //val results = db?.quizResultDao()?.getResultsByQuizId(1)
+
 
 
         init {
@@ -60,7 +60,7 @@ class LessonActivity : AppCompatActivity() {
                     score = "${result?.score} / ${result?.maxScore}"
                 }
 
-                notifyDataSetChanged() // Aktualizacja po otrzymaniu wyników z bazy danych
+                notifyDataSetChanged()
             }
         }
 
@@ -97,7 +97,7 @@ class LessonActivity : AppCompatActivity() {
                 4 -> SlideFragment.newInstance(
 
                     "Quiz",
-                    "Liczba punktów z ostatniego quizu:\n${score}]\n",
+                    "Liczba punktów z ostatniego quizu:\n${score}\n",
 
                     isLastSlide
                 )

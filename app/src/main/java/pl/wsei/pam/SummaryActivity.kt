@@ -15,6 +15,7 @@ import pl.wsei.pam.lab01.R
 class SummaryActivity : AppCompatActivity() {
 
     private lateinit var db: AppDatabase
+    private lateinit var notificationHelper: NotificationHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_summary)
@@ -30,9 +31,14 @@ class SummaryActivity : AppCompatActivity() {
 
         summaryTitleTextView.text = "Podsumowanie Quizu "
         scoreTextView.text = "Wynik: ${score}/${totalQuestions}"
+
+
         // DataBase
 
         saveQuizResult(1, score, totalQuestions)
+
+        notificationHelper = NotificationHelper(this)
+        notificationHelper.sendNotification("Quiz zakończony", "Zdobyłeś $score na $totalQuestions punktów!")
 
 
         restartQuizButton.setOnClickListener {

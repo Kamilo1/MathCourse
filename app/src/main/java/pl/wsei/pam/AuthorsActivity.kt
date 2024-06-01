@@ -31,6 +31,8 @@ class AuthorsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         toggle.syncState()
 
         binding.navigationView.setNavigationItemSelectedListener(this)
+
+
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -44,6 +46,8 @@ class AuthorsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
 
             }
             R.id.nav_about -> {
+
+
 
             }
             R.id.nav_authors -> {

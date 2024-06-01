@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
 import pl.wsei.pam.lab01.databinding.ActivityMainBinding
 import pl.wsei.pam.lab01.R
+
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding: ActivityMainBinding
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
@@ -71,6 +73,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val departmentsAdapter = ArrayAdapter(this, R.layout.spinner_item, viewModel.departments.value!!)
         departmentsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.departmentSpinner.adapter = departmentsAdapter
+
+
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

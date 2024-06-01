@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import kotlin.concurrent.Volatile
 
 
-@Database(entities = [QuizResult::class], version = 1)
+@Database(entities = [QuizResult::class], version = 4)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun quizResultDao(): QuizResultDao?
 
@@ -22,6 +22,7 @@ abstract class AppDatabase : RoomDatabase() {
                             context.applicationContext,
                             AppDatabase::class.java, "quiz_database"
                         )
+                            .fallbackToDestructiveMigration() // Dodać tę linijkę, jeśli nie chcesz obsługiwać migracji ręcznie
                             .build()
                     }
                 }
