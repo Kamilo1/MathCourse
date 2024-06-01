@@ -97,7 +97,7 @@ class LessonActivity : AppCompatActivity() {
                 4 -> SlideFragment.newInstance(
 
                     "Quiz",
-                    "Liczba punktów z ostatniego quizu:\n${score}",
+                    "Liczba punktów z ostatniego quizu:\n${score}]\n",
 
                     isLastSlide
                 )

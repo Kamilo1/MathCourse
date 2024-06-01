@@ -8,8 +8,8 @@ import pl.wsei.pam.QuizResult
 @Dao
 interface QuizResultDao {
     @Insert
-    fun insert(quizResult: QuizResult)
 
+    fun insert(quizResult: QuizResult)
     @Query("SELECT * FROM quiz_result WHERE quizId = :quizId")
     fun getResultsByQuizId(quizId: Int): List<QuizResult?>?
 }
