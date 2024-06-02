@@ -43,7 +43,8 @@ class AuthorsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 finish()
             }
             R.id.nav_settings -> {
-
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
             }
             R.id.nav_about -> {
 

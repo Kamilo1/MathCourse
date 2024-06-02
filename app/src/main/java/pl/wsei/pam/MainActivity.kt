@@ -78,12 +78,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+
         when (item.itemId) {
             R.id.nav_home -> {
                 // Handle Home action
             }
             R.id.nav_settings -> {
-                // Handle Settings action
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
             }
             R.id.nav_about -> {
                 // Handle About action
