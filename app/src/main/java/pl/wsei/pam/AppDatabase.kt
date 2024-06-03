@@ -22,7 +22,7 @@ abstract class AppDatabase : RoomDatabase() {
                             context.applicationContext,
                             AppDatabase::class.java, "quiz_database"
                         )
-                            .fallbackToDestructiveMigration() // Dodać tę linijkę, jeśli nie chcesz obsługiwać migracji ręcznie
+                            .fallbackToDestructiveMigration()
                             .build()
                     }
                 }

@@ -11,11 +11,11 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import pl.wsei.pam.lab01.R
-import pl.wsei.pam.lab01.databinding.ActivityMainBinding
+import pl.wsei.pam.lab01.databinding.ActivitySettingsBinding
 
 class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivitySettingsBinding
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var switchButton: Switch
     private val sharedPrefFile = "pl.wsei.pam.PREFERENCES"
@@ -23,24 +23,32 @@ class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
+        drawerLayout = binding.drawerLayout
 
         switchButton = findViewById(R.id.switchButton)
-
 
         val sharedPreferences = getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
         val isChecked = sharedPreferences.getBoolean("SWITCH_BUTTON_STATE", false)
         switchButton.isChecked = isChecked
 
         switchButton.setOnCheckedChangeListener { _, isChecked ->
-
             with(sharedPreferences.edit()) {
                 putBoolean("SWITCH_BUTTON_STATE", isChecked)
                 apply()
             }
         }
+
+        setSupportActionBar(binding.toolbar)
+        toggle = ActionBarDrawerToggle(this, drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        binding.navigationView.setNavigationItemSelectedListener(this)
     }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_home -> {
@@ -49,12 +57,8 @@ class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 finish()
             }
             R.id.nav_settings -> {
-
             }
             R.id.nav_about -> {
-
-
-
             }
             R.id.nav_authors -> {
                 val intent = Intent(this, AuthorsActivity::class.java)
@@ -63,5 +67,13 @@ class SettingsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
     }
 }

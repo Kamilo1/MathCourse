@@ -13,7 +13,7 @@
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".AuthorsActivity">
+        tools:context=".SettingsActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -29,13 +29,15 @@
 
             <Switch
                 android:id="@+id/switchButton"
-                android:layout_width="328dp"
-                android:layout_height="285dp"
-                android:layout_centerInParent="true"
-                android:text=" Dark mode"
-                tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml"
-                tools:layout_editor_absoluteX="32dp"
-                tools:layout_editor_absoluteY="16dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dark mode"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.navigation.NavigationView
